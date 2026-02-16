@@ -35,20 +35,14 @@ export class AddBookPage {
     
     await this.isbnInput.fill(book.isbn);
     
-    // await this.publicationDateInput.fill(book.publicationDate);
     const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
     await this.publicationDateInput.fill(today);
     await this.page.waitForTimeout(2000)
     await this.priceInput.fill(book.price);
   }
-
-  async submitForm() {
-    await this.addBookButton.click();
-    await this.page.waitForTimeout(2000)
-  }
-
+  
   async addBook(book) {
     await this.fillBookForm(book);
-    await this.submitForm();
+    await this.addBookButton.click();
   }
 }

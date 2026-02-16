@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 export class BooksPage {
    
   constructor(page) {
@@ -42,17 +43,26 @@ export class BooksPage {
     await expect(this.nextButton).toBeDisabled();
   }
 
+  async getTotalBookCount() {
+    const text = await this.totalCount.innerText(); // e.g., "Total Book Titles: 12"
+    const match = text.match(/\d+/);
+  return match ? parseInt(match[0], 10) : null;
+}
 
-  async validateUIElements() {
+
+  async validateUIElements(allRecords) {
     await this.heading.isVisible();
 
     await this.addBookButton.isVisible();
     
     await this.previousButton.isVisible();
-    
-    // await expect(this.nextButton).toBeVisible();
-    // await expect(this.nextButton).toBeDisabled();
+  
     await this.totalCount.isVisible();
+
+    // const text = await this.totalCount.innerText(); // e.g., "Total Book Titles: 12"
+    // const count = parseInt(text.match(/\d+/)[0], 10);
+    // expect(count).toBe(allRecords); // Replace 12 with the expected number
+
     
 
     for (const header of this.columnHeaders) {
@@ -72,6 +82,9 @@ export class BooksPage {
 
   async clickAddBook(){
     await this.addBookButton.click();
-     
   }
+
+  
+
+
 }
