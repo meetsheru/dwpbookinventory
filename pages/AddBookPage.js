@@ -37,12 +37,22 @@ export class AddBookPage {
     
     const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
     await this.publicationDateInput.fill(today);
-    await this.page.waitForTimeout(2000)
+    
     await this.priceInput.fill(book.price);
   }
   
+  async clickOnAddBookBtn(){
+    await this.addBookButton.click();
+     await this.page.waitForTimeout(2000)
+  }
+
   async addBook(book) {
     await this.fillBookForm(book);
     await this.addBookButton.click();
   }
+
+  getFormErrorMessages() {
+  return this.page.getByRole('alert').locator('li');
+  }
+
 }

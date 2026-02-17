@@ -1,25 +1,26 @@
 import { test, expect } from '../../utils/custom-fixtures';
+import { FORM_VALIDATION_ERRORS } from "../../utils/constants"
+import { USERDATA } from "../../utils/constants"
 
 
 
-test('Verify that,User with invalid credentials cannot log in and sees a validation error message', async ({ loginPage, booksPage, addBookPage } ) => {
+test('User with invalid credentials cannot log in and sees a validation error message', async ({ loginPage, booksPage, addBookPage } ) => {
   await loginPage.goto();
-  await loginPage.login('admins', 'admins');
+  await loginPage.login('invalid', 'invalid');
 
-  await expect(loginPage.getLoginErrorMessages()).toHaveText('Invalid username or password. Please try again.');
+  await expect(loginPage.getLoginErrorMessages()).toHaveText(FORM_VALIDATION_ERRORS.invalid_uname_pwd);
 
 });
 
 test('User submits login form without entering username and password, and sees validation error messages', async ( { loginPage, booksPage, addBookPage } ) => {
- 
 
   await loginPage.goto();
   await loginPage.login('', '');
 
   const errors = loginPage.getLoginErrorMessages();
   await expect(errors).toHaveCount(2);
-  await expect(errors.nth(0)).toHaveText('Please enter your username');
-  await expect(errors.nth(1)).toHaveText('Please enter your password');
+  await expect(errors.nth(0)).toHaveText(FORM_VALIDATION_ERRORS.username);
+  await expect(errors.nth(1)).toHaveText(FORM_VALIDATION_ERRORS.password);
 });
 
 test('User submits login form without entering password, and sees validation error messages', async ( { loginPage, booksPage, addBookPage } ) => {
@@ -27,36 +28,27 @@ test('User submits login form without entering password, and sees validation err
 
   await loginPage.goto();
   await loginPage.login('admin', '');
-  await expect(loginPage.getLoginErrorMessages()).toHaveText('Please enter your password');
+  await expect(loginPage.getLoginErrorMessages()).toHaveText(FORM_VALIDATION_ERRORS.password);
 });
 
-test('Verify that, User with valid credentials can log in and successfully add a new book', async ( { loginPage, booksPage, addBookPage } ) => {
+test('User with valid credentials can log in and successfully add a new book', async ( { loginPage, booksPage, addBookPage } ) => {
   
   let count = 0;
 
   await loginPage.goto();
-  await loginPage.login('admin', 'admin');
+  await loginPage.login(USERDATA.username, USERDATA.password);
 
   await booksPage.isLoaded();
 
   count = await booksPage.getTotalBookCount();
-  expect(count).toBe(3); // Replace 12 with your expected value
+  expect(count).toBe(3); 
 
 
   await booksPage.validateUIElements();
 
   await booksPage.clickAddBook();
 
-   const book = {
-    title: 'The Gruffalo',
-    author: 'Julia Donaldson',
-    genre: 'Mystery',
-    isbn: '9780333710937',
-    price: '6.50'
-  };
-
-
-  await addBookPage.addBook(book);
+  await addBookPage.addBook(FORM_VALIDATION_ERRORS.book);
 
   await booksPage.isLoaded();
 
@@ -68,21 +60,50 @@ test('Verify that, User with valid credentials can log in and successfully add a
 });
 
 
-// test.only('Shows validation errors when adding invalid book data', async ({ page }) => {
-//   const loginPage = new LoginPage(page);
-//   const booksPage = new BooksPage(page);
-//   const addBookPage = new AddBookPage(page);
+test('Displays validation errors when user submits the Add Book form without entering any data', async ({ loginPage, booksPage, addBookPage  }) => {
 
-//   await loginPage.goto();
-//   await loginPage.login('admin', 'admin');
+  await loginPage.goto();
+  await loginPage.login(USERDATA.username, USERDATA.password);
 
-//   await booksPage.isLoaded();
-//   await booksPage.validateUIElements();
+  await booksPage.isLoaded();
+  await booksPage.validateUIElements();
 
-//   await booksPage.clickAddBook();
+  await booksPage.clickAddBook();
 
+  await addBookPage.clickOnAddBookBtn()
 
-//   await addBookPage.submitEmptyForm();
-//   await addBookPage.expectValidationErrors();
-// });
+  const errors = await addBookPage.getFormErrorMessages().allTextContents();
+
+expect(errors).toEqual([
+  FORM_VALIDATION_ERRORS.titleRequired,
+  FORM_VALIDATION_ERRORS.authorRequired,
+  FORM_VALIDATION_ERRORS.genreRequired,
+  FORM_VALIDATION_ERRORS.isbnRequired,
+  FORM_VALIDATION_ERRORS.publicationDateRequired,
+  FORM_VALIDATION_ERRORS.priceRequired,
+]);
+
+});
+
+test('Displays validation error when title exceeds 20 characters', async ({ loginPage, booksPage, addBookPage  }) => {
+
+  await loginPage.goto();
+  await loginPage.login(USERDATA.username, USERDATA.password);
+
+  await booksPage.isLoaded();
+  await booksPage.validateUIElements();
+
+  await booksPage.clickAddBook();
+
+   await addBookPage.addBook(FORM_VALIDATION_ERRORS.invalidbook);
+
+  await addBookPage.clickOnAddBookBtn()
+
+  const errors = await addBookPage.getFormErrorMessages().allTextContents();
+
+expect(errors).toEqual([
+  FORM_VALIDATION_ERRORS.titleExceedData,
+]);
+
+});
 
