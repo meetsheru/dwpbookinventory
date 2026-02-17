@@ -8,12 +8,13 @@ export class EditBookPage {
     this.pageTitle = page.getByRole('heading', { name: 'Edit book details' });
 
     // Form fields using accessible roles and labels
-    this.titleInput = page.getByRole('textbox', { name: 'Title' });
-    this.authorInput = page.getByRole('textbox', { name: 'Author' });
-    this.genreInput = page.getByRole('textbox', { name: 'Genre' });
+    this.titleInput = page.locator('input[name="title"]');
+    this.authorInput = page.locator('input[name="author"]');
+
+    this.genreInput = page.locator('input[name="genre"]');
     this.isbnInput = page.locator('input[name="isbn"]');
-    this.publicationDateInput = page.getByRole('textbox', { name: 'Publication Date' });
-    this.priceInput = page.getByRole('textbox', { name: 'Price (£)' });
+    this.publicationDateInput = page.locator('input[name="publicationDate"]');
+    this.priceInput = page.locator('input[name="price"]');
 
     // Save button
     this.saveChangesButton = page.getByRole('button', { name: 'Save Changes' });
@@ -28,19 +29,34 @@ export class EditBookPage {
     await this.titleInput.fill(value);
   }
 
+  async getTitle() {
+  return await this.titleInput.inputValue();
+}
+
   async updateAuthor(value) {
     await this.authorInput.fill(value);
   }
 
+  async getAuthor() {
+  return await this.authorInput.inputValue();
+}
+
   async updateGenre(value) {
     await this.genreInput.fill(value);
   }
+
+  async getGenere() {
+  return await this.genreInput.inputValue();
+}
 
  async updateISBN(value) {
   await expect(this.isbnInput).toBeVisible();
   await this.isbnInput.fill(value);
 }
 
+async getISBNValue() {
+  return await this.isbnInput.inputValue();
+}
 
   async updatePublicationDate(value) {
     await this.publicationDateInput.fill(value);

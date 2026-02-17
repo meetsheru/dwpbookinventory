@@ -1,6 +1,6 @@
-import { test, expect } from '../../utils/custom-fixtures';
-import { FORM_VALIDATION_ERRORS } from "../../utils/constants"
-import { USERDATA } from "../../utils/constants"
+import { test, expect } from "../../utils/custom-fixtures";
+import { FORM_VALIDATION_ERRORS } from "../../utils/constants";
+import { USERDATA } from "../../utils/constants";
 
 test.beforeEach(async ({ loginPage, booksPage }) => {
   await loginPage.goto();
@@ -11,9 +11,13 @@ test.beforeEach(async ({ loginPage, booksPage }) => {
 test("User can edit and delete a book after adding it", async ({
   booksPage,
   addBookPage,
-  editBookPage
+  editBookPage,
 }) => {
   let count = 0;
+
+  /*
+   * When page loads, it shown the count to 3, verifying the count to 3
+   */
 
   count = await booksPage.getTotalBookCount();
   expect(count).toBe(3);
@@ -25,31 +29,46 @@ test("User can edit and delete a book after adding it", async ({
 
   await booksPage.isLoaded();
 
+  /*
+   * After addding the new book, verifying the count to 4
+   */
+
   count = await booksPage.getTotalBookCount();
   expect(count).toBe(4);
 
   await booksPage.validateUIElements();
 
   // Click the Edit button in the 3rd row (index starts at 0)
-  await booksPage.clickActionButtonByRow(3, 'edit');
+  await booksPage.clickActionButtonByRow(3, "edit");
 
   await editBookPage.verifyPageTitle();
+  
+  await expect(await editBookPage.getTitle()).toBe(FORM_VALIDATION_ERRORS.book.title); 
+  
+  await expect(await editBookPage.getISBNValue()).toBe(FORM_VALIDATION_ERRORS.book.isbn);
 
-  await editBookPage.updateISBN('121213143131');
+  await editBookPage.updateISBN("121213143131");
 
   await editBookPage.saveChanges();
 
-    await booksPage.isLoaded();
+  await booksPage.isLoaded();
+
+    /*
+   * After edirting the new book, verifying the count to 4
+   */
 
   count = await booksPage.getTotalBookCount();
 
   expect(count).toBe(4);
 
-  await booksPage.clickActionButtonByRow(3, 'delete');
 
-   count = await booksPage.getTotalBookCount();
+  await booksPage.clickActionButtonByRow(3, "delete");
+
+  count = await booksPage.getTotalBookCount();
+
+    /*
+   * After delete the new book, verifying the count to 3
+   */
 
   expect(count).toBe(3);
-
 });
-

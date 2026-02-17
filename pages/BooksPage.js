@@ -35,7 +35,8 @@ export class BooksPage {
     // Table rows
     this.tableRows = page.locator("table tbody tr");
 
-    const logoutButton = page.getByRole('button', { name: 'Log Out' });
+    this.logOutButton = page.getByRole('button', { name: 'Log Out' });
+    
   }
 
   async isLoaded() {
@@ -77,6 +78,7 @@ export class BooksPage {
 
   async clickAddBook() {
     await this.addBookButton.click();
+    
   }
 
   async clickActionButtonByRow(rowIndex, action = "edit") {
@@ -87,6 +89,8 @@ export class BooksPage {
   }
 
   async clickOnLogout(){
-    await logoutButton.click();
+    await this.logOutButton.click();
+    await this.page.waitForTimeout(2000);
+    
   }
 }

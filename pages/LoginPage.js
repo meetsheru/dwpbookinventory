@@ -5,6 +5,10 @@ export class LoginPage {
     this.password = page.getByRole("textbox", { name: "Password" });
     this.loginbtn = page.getByRole("button", { name: "Submit login" });
     this.loginErrorAlert = page.getByRole("alert");
+    this.loginHeading = page.getByRole("heading", {
+      name: "Login",
+      level: 2,
+    });
   }
 
   async goto() {
@@ -17,7 +21,11 @@ export class LoginPage {
     await this.loginbtn.click();
   }
 
-  getLoginErrorMessages() {
+  async getLoginErrorMessages() {
     return this.loginErrorAlert.locator("li");
+  }
+
+  async isLoaded() {
+    return await this.loginHeading.isVisible();
   }
 }
