@@ -2,9 +2,7 @@ import { test, expect } from "../../utils/custom-fixtures";
 import { FORM_VALIDATION_ERRORS } from "../../utils/constants";
 
 test("User with invalid credentials cannot log in and sees a validation error message", async ({
-  loginPage,
-  booksPage,
-  addBookPage,
+  loginPage
 }) => {
   await loginPage.goto();
   await loginPage.login("invalid", "invalid");
@@ -15,9 +13,7 @@ test("User with invalid credentials cannot log in and sees a validation error me
 });
 
 test("User submits login form without entering username and password, and sees validation error messages", async ({
-  loginPage,
-  booksPage,
-  addBookPage,
+  loginPage
 }) => {
   await loginPage.goto();
   await loginPage.login("", "");
@@ -29,9 +25,7 @@ test("User submits login form without entering username and password, and sees v
 });
 
 test("User submits login form without entering password, and sees validation error messages", async ({
-  loginPage,
-  booksPage,
-  addBookPage,
+  loginPage
 }) => {
   await loginPage.goto();
   await loginPage.login("admin", "");

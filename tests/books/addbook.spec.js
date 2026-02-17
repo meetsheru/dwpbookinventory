@@ -9,7 +9,6 @@ test.beforeEach(async ({ loginPage, booksPage }) => {
 });
 
 test("User with valid credentials can log in and successfully add a new book", async ({
-  loginPage,
   booksPage,
   addBookPage,
 }) => {
@@ -32,7 +31,6 @@ test("User with valid credentials can log in and successfully add a new book", a
 });
 
 test("Displays validation errors when user submits the Add Book form without entering any data", async ({
-  loginPage,
   booksPage,
   addBookPage,
 }) => {
@@ -55,7 +53,6 @@ test("Displays validation errors when user submits the Add Book form without ent
 });
 
 test("Displays validation error when title exceeds 20 characters", async ({
-  loginPage,
   booksPage,
   addBookPage,
 }) => {

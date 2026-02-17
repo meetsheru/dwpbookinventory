@@ -76,4 +76,11 @@ export class BooksPage {
   async clickAddBook() {
     await this.addBookButton.click();
   }
+
+  async clickActionButtonByRow(rowIndex, action = "edit") {
+    const row = this.page.locator("table tbody tr").nth(rowIndex);
+    const buttonIndex = action.toLowerCase() === "edit" ? 0 : 1;
+    const button = row.locator("button").nth(buttonIndex);
+    await button.click();
+  }
 }
