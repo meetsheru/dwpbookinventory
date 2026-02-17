@@ -2,7 +2,7 @@
   "name": "dwpbookinventory",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  
   "scripts": {
     "test": "playwright test --headed",
     "test:debug": "playwright test --debug",
@@ -12,6 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/meetsheru/dwpbookinventory.git"
   },
+ 
   "keywords": [],
   "author": "",
   "license": "ISC",
