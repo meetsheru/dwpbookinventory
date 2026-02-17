@@ -1,7 +1,7 @@
-import { test as base } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
-import { BooksPage } from '../pages/BooksPage';
-import { AddBookPage } from '../pages/AddBookPage';
+import { test as base } from "@playwright/test";
+import { LoginPage } from "../pages/LoginPage";
+import { BooksPage } from "../pages/BooksPage";
+import { AddBookPage } from "../pages/AddBookPage";
 
 export const test = base.extend({
   loginPage: async ({ page }, use) => {
@@ -15,4 +15,4 @@ export const test = base.extend({
   },
 });
 
-export { expect } from '@playwright/test';
+export { expect } from "@playwright/test";
