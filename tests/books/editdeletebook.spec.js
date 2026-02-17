@@ -54,7 +54,7 @@ test("User can edit and delete a book after adding it", async ({
   await booksPage.isLoaded();
 
     /*
-   * After edirting the new book, verifying the count to 4
+   * After editing the new book, verifying the count to 4
    */
 
   count = await booksPage.getTotalBookCount();

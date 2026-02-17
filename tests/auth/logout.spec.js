@@ -8,7 +8,7 @@ test.beforeEach(async ({ loginPage, booksPage }) => {
 });
 /*
 
-* This test is failing, as logout is not woring. After clicking logout, it suppose to navigate to Login, but it stays on Bookslist page.
+* This test is failing, as logout is not working. After clicking logout, it suppose to navigate to Login, but it stays on Bookslist page.
 * To make it pass, i am checking the false here. Once it get fixed, we should change to Truthy
 */
 
