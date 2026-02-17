@@ -1,16 +1,8 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../pages/LoginPage';
-import { BooksPage } from '../../pages/BooksPage';
-import { AddBookPage } from '../../pages/AddBookPage';
+import { test, expect } from '../../utils/custom-fixtures';
 
 
 
-
-test('Verify that,User with invalid credentials cannot log in and sees a validation error message', async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const booksPage = new BooksPage(page);
-  const addBookPage = new AddBookPage(page);
-
+test('Verify that,User with invalid credentials cannot log in and sees a validation error message', async ({ loginPage, booksPage, addBookPage } ) => {
   await loginPage.goto();
   await loginPage.login('admins', 'admins');
 
@@ -18,10 +10,8 @@ test('Verify that,User with invalid credentials cannot log in and sees a validat
 
 });
 
-test('User submits login form without entering username and password, and sees validation error messages', async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const booksPage = new BooksPage(page);
-  const addBookPage = new AddBookPage(page);
+test('User submits login form without entering username and password, and sees validation error messages', async ( { loginPage, booksPage, addBookPage } ) => {
+ 
 
   await loginPage.goto();
   await loginPage.login('', '');
@@ -32,20 +22,16 @@ test('User submits login form without entering username and password, and sees v
   await expect(errors.nth(1)).toHaveText('Please enter your password');
 });
 
-test('User submits login form without entering password, and sees validation error messages', async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const booksPage = new BooksPage(page);
-  const addBookPage = new AddBookPage(page);
+test('User submits login form without entering password, and sees validation error messages', async ( { loginPage, booksPage, addBookPage } ) => {
+ 
 
   await loginPage.goto();
   await loginPage.login('admin', '');
   await expect(loginPage.getLoginErrorMessages()).toHaveText('Please enter your password');
 });
 
-test('Verify that, User with valid credentials can log in and successfully add a new book', async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const booksPage = new BooksPage(page);
-  const addBookPage = new AddBookPage(page);
+test('Verify that, User with valid credentials can log in and successfully add a new book', async ( { loginPage, booksPage, addBookPage } ) => {
+  
   let count = 0;
 
   await loginPage.goto();
@@ -75,14 +61,14 @@ test('Verify that, User with valid credentials can log in and successfully add a
   await booksPage.isLoaded();
 
   count = await booksPage.getTotalBookCount();
-  expect(count).toBe(4); // Replace 12 with your expected value
+  expect(count).toBe(4); 
 
-  await booksPage.validateUIElements(4);
+  await booksPage.validateUIElements();
   
 });
 
 
-// test('Shows validation errors when adding invalid book data', async ({ page }) => {
+// test.only('Shows validation errors when adding invalid book data', async ({ page }) => {
 //   const loginPage = new LoginPage(page);
 //   const booksPage = new BooksPage(page);
 //   const addBookPage = new AddBookPage(page);

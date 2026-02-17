@@ -50,7 +50,7 @@ export class BooksPage {
 }
 
 
-  async validateUIElements(allRecords) {
+  async validateUIElements() {
     await this.heading.isVisible();
 
     await this.addBookButton.isVisible();
@@ -58,12 +58,6 @@ export class BooksPage {
     await this.previousButton.isVisible();
   
     await this.totalCount.isVisible();
-
-    // const text = await this.totalCount.innerText(); // e.g., "Total Book Titles: 12"
-    // const count = parseInt(text.match(/\d+/)[0], 10);
-    // expect(count).toBe(allRecords); // Replace 12 with the expected number
-
-    
 
     for (const header of this.columnHeaders) {
       await header.isVisible();
