@@ -45,7 +45,7 @@ Run Tests:
 
 npx playwright test
 
-Vie HTML Report:
+View HTML Report:
 
 npx playwright show-report
 
