@@ -35,8 +35,7 @@ export class BooksPage {
     // Table rows
     this.tableRows = page.locator("table tbody tr");
 
-    this.logOutButton = page.getByRole('button', { name: 'Log Out' });
-    
+    this.logOutButton = page.getByRole("button", { name: "Log Out" });
   }
 
   async isLoaded() {
@@ -78,7 +77,6 @@ export class BooksPage {
 
   async clickAddBook() {
     await this.addBookButton.click();
-    
   }
 
   async clickActionButtonByRow(rowIndex, action = "edit") {
@@ -88,9 +86,39 @@ export class BooksPage {
     await button.click();
   }
 
-  async clickOnLogout(){
+  async clickOnLogout() {
     await this.logOutButton.click();
     await this.page.waitForTimeout(2000);
+  }
+
+ 
+  // using this function, you can retirve the value of cell for the given row and colum
+  async getRowCellValue(rowIndex, cellIndex) {
     
+    await this.page.waitForSelector("table tbody tr");
+
+    const rowCount = await this.tableRows.count();
+
+    if (rowIndex >= rowCount) {
+      throw new Error(
+        `Row index ${rowIndex} does not exist. Total rows: ${rowCount}`,
+      );
+    }
+
+    const row = this.tableRows.nth(rowIndex);
+    const cells = row.locator("td");
+    const cellCount = await cells.count();
+
+    if (cellIndex >= cellCount) {
+      throw new Error(
+        `Cell index ${cellIndex} does not exist. Total cells: ${cellCount}`,
+      );
+    }
+
+    const cell = cells.nth(cellIndex);
+
+    await cell.waitFor(); // ensures the cell is present
+
+    return await cell.innerText();
   }
 }

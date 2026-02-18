@@ -15,6 +15,13 @@ export class AddBookPage {
     this.addBookButton = page.getByRole("button", {
       name: "Submit Add New Book Form",
     });
+
+    this.titleError = page.locator("#title-error");
+    this.authorError = page.locator("#author-error");
+    this.genreError = page.locator("#genre-error");
+    this.isbnError = page.locator("#isbn-error");
+    this.publicationDateError = page.locator("#publicationDate-error");
+    this.priceError = page.locator("#price-error");
   }
 
   /**
@@ -36,7 +43,7 @@ export class AddBookPage {
 
     await this.isbnInput.fill(book.isbn);
 
-    const today = new Date().toISOString().split("T")[0]; 
+    const today = new Date().toISOString().split("T")[0];
     await this.publicationDateInput.fill(today);
 
     await this.priceInput.fill(book.price);
@@ -54,5 +61,27 @@ export class AddBookPage {
 
   getFormErrorMessages() {
     return this.page.getByRole("alert").locator("li");
+  }
+
+  async getTitleErrorMessage() {
+    return await this.titleError.innerText();
+  }
+
+  async authorErrorMessage() {
+    return await this.authorError.innerText();
+  }
+
+  async genreErrorMessage() {
+    return await this.genreError.innerText();
+  }
+  async isbnErrorMessage() {
+    return await this.isbnError.innerText();
+  }
+
+   async publicationDateErrorMessage() {
+    return await this.publicationDateError.innerText();
+  }
+   async priceErrorMessage() {
+    return await this.priceError.innerText();
   }
 }
